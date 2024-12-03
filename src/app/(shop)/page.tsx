@@ -7,7 +7,7 @@ const products = initialData.products
 
 export default function Home() {
   return (
-    <div className={`${titleFont.className}`}>
+    <div className={`${titleFont.className} px-2`}>
       <Title title="Tienda" subtitle="Todos los productos"/>
       <ProductGrid products={products}/>
     </div>

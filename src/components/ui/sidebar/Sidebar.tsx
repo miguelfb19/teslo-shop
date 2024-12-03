@@ -19,7 +19,7 @@ export const Sidebar = () => {
   const closeMenu = useUiStore((state) => state.closeSideMenu);
 
   return (
-    <div className="">
+    <div>
       {
         isSideMenuOpen && (
           <div className="fixed top-0 left-0 w-screen h-screen z-10 bg-black opacity-30"></div>
@@ -35,7 +35,7 @@ export const Sidebar = () => {
       {/* Sidemenu */}
       <nav
         className={clsx(
-          "fixed p-5 right-0 top-0 w-[400px] h-screen bg-white z-20 shadow-2xl transform transition duration-300",
+          "fixed p-5 right-0 top-0 w-[300px] h-screen bg-white z-20 shadow-2xl transform transition duration-300",
           { "translate-x-full": !isSideMenuOpen }
         )}
       >

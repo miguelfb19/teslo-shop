@@ -28,7 +28,6 @@ export const ProductMobileSlideshow = ({ images, title, className }: Props) => {
           width: "100vw",
           height: "500px",
         }}
-        loop={true}
         pagination={{
           clickable: true,
         }}

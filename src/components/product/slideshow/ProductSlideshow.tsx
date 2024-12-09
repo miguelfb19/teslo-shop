@@ -28,15 +28,9 @@ export const ProductSlideshow = ({ images, title, className }: Props) => {
   return (
     <div className={className}>
       <Swiper
-        style={
-          {
-            "--swiper-navigation-color": "#fff",
-            "--swiper-pagination-color": "#fff",
-          } as React.CSSProperties
-        }
         spaceBetween={10}
         navigation={true}
-        autoplay={{ delay: 2500 }}
+        autoplay={{ delay: 4000 }}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Navigation, Thumbs, Autoplay]}
         className="mySwiper2"

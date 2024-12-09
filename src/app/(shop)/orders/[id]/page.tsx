@@ -1,6 +1,5 @@
 import { Title } from "@/components";
 import { initialData } from "@/seed/seed";
-import Link from "next/link";
 import Image from "next/image";
 import clsx from "clsx";
 import { IoCardOutline } from "react-icons/io5";
@@ -12,13 +11,13 @@ const productsInCart = [
 ];
 
 interface Props {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export default function ({ params }: Props) {
-  const { id } = params;
+export default async function OrdersIdPage({ params }: Props) {
+  const { id } = await params;
 
   // TODO: verificar
   // redicrect('/')

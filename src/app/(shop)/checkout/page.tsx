@@ -9,7 +9,7 @@ const productsInCart = [
   initialData.products[2],
 ];
 
-export default function () {
+export default function CheckoutPage() {
   return (
     <div className="flex justify-center items-center mb-72 px-10 w-full sm:px-0">
       <div className="flex flex-col w-full">
@@ -85,7 +85,7 @@ export default function () {
             {/* Disclaimer */}
             <div className="flex my-5 justify-center">
               <span className="text-center text-xs">
-                Al hacer click en "Confirmar orden", aceptas nuestros{" "}
+                Al hacer click en &quot;Confirmar orden&quot;, aceptas nuestros{" "}
                 <a className="underline" href="#">Términos y condicionesde uso</a> y{" "}
                 <a className="underline" href="#">Política de privacidad de datos.</a>
               </span>

@@ -1,34 +1,42 @@
-'use client'
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 import { getStockBySlug } from "@/actions";
 import { titleFont } from "@/config/fonts";
-import { useEffect, useState } from "react";
+import clsx from "clsx";
+// import { useEffect, useState } from "react";
 
 interface Props {
-    slug: string
+  slug: string;
 }
 
-
-export const StockLabel = async ({slug}:Props) => {
-    const [stock, setStock] = useState<number | undefined>(0)
-
-    const getStock = async (slug:string)=>{
-        const stock = await getStockBySlug(slug)
-        return stock
+export const StockLabel = async ({ slug }: Props) => {
+  const getStock = async (slug: string): Promise<number> => {
+    try {
+      const stock = await getStockBySlug(slug);
+      return stock;
+    } catch (error) {
+      console.error("Hubo un error al obtener el stock del servidor:", error);
+      return 0;
     }
+  };
 
-    useEffect(() => {
-      const newStock = getStock(slug)
-      
-    }, [slug])
-    
+  const stock = await getStock(slug);
 
   return (
     <div>
       <h1
-        className={`${titleFont.className} antialiased font-bold text-md text-blue-700`}
+        className={clsx(
+          `${titleFont.className} antialiased font-bold text-md text-blue-700`,
+          {
+            "text-red-500": stock === 0,
+            "text-yellow-500": stock > 0 && stock <= 5,
+          }
+        )}
       >
-        Stock: {stock}
+        {stock > 0 && stock <= 5
+          ? `Últimos productos en stock: ${stock}`
+          : `Stock: ${stock}`}
       </h1>
     </div>
   );

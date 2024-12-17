@@ -1,20 +1,17 @@
 import prisma from "@/lib/prisma";
 
-export const getStockBySlug = async (slug: string) => {
+export const getStockBySlug = async (slug: string): Promise<number> => {
+
   try {
-    const product = await prisma.product.findFirst({
+    const productStock = await prisma.product.findFirst({
       where: {
         slug: slug,
       },
     })
-
-    const stock = product?.inStock
-
-    console.log(stock);
+  
+    return productStock?.inStock ?? 0
     
-    return stock
-    
-  } catch {
-    throw new Error("Error al obtener el stock del producto");
+  } catch (error) {
+    throw new Error("Error al obtener el stock del producto", {cause: error});
   }
 };

@@ -1,14 +1,13 @@
 export const revalidate = 604800; // 7 días
 
 import { titleFont } from "@/config/fonts";
-import { SizeSelector } from "@/components";
 import { notFound } from "next/navigation";
-import { QuantitySelector } from "@/components";
 import { ProductSlideshow } from "@/components";
 import { ProductMobileSlideshow } from "@/components";
 import { getProductBySlug } from "@/actions";
 import { StockLabel } from "@/components";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
+import { AddToCart } from "./ui/AddToCart";
 
 interface Props {
   params: Promise<{
@@ -16,10 +15,10 @@ interface Props {
   }>;
 }
 
-export async function generateMetadata(
-  { params }: Props,
-  // parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: Props): // parent: ResolvingMetadata
+Promise<Metadata> {
   // read route params
   const slug = (await params).slug;
 
@@ -30,7 +29,7 @@ export async function generateMetadata(
   // const previousImages = (await parent).openGraph?.images || []
 
   return {
-    title: product?.title ?? 'Producto no encontrado',
+    title: product?.title ?? "Producto no encontrado",
     description: product?.description,
     openGraph: {
       title: product?.title,
@@ -74,17 +73,7 @@ export default async function ProductPage({ params }: Props) {
         </h1>
         <p className="text-lg mb-5">${product.price}</p>
 
-        {/* Tallas */}
-        <SizeSelector
-          selectedSize={product.sizes[0]}
-          availableSizes={product.sizes}
-        />
-
-        {/* Cantidad */}
-        <QuantitySelector quantity={2} />
-
-        {/* Boton Add to Cart */}
-        <button className="btn-primary my-5">Agregar al carrito</button>
+        <AddToCart product={product}/>
 
         {/* Description */}
         <h3 className="text-sm font-bold">Descripción</h3>

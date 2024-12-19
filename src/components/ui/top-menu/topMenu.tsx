@@ -9,14 +9,13 @@ import { useCartStore } from "@/store/cart/cart-store";
 
 export const TopMenu = () => {
   const openMenu = useUiStore((state) => state.openSideMenu);
-  const {itemsInCart} = useCartStore((state) => state.getSummaryInformation());
+  const { itemsInCart } = useCartStore((state) => state.summary);
 
-  const [loaded, setLoaded] = useState(false)
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    setLoaded(true)
-  }, [])
-  
+    setLoaded(true);
+  }, []);
 
   return (
     <nav className="flex px-5 justify-between items-center w-full">
@@ -56,11 +55,13 @@ export const TopMenu = () => {
         <Link href="/search">
           <IoSearchOutline className="w-5 h-5" />
         </Link>
-        <Link href="/cart">
+        <Link href={(itemsInCart === 0 && loaded) ? "/empty" : "/cart"}>
           <div className="relative">
-            {loaded && itemsInCart != 0 && <span className="absolute text-xs rounded-full px-1 font-bold -top-2 bg-blue-700 text-white -right-2">
-              {itemsInCart}
-            </span>}
+            {loaded && itemsInCart != 0 && (
+              <span className="flex items-center justify-center aspect-square w-full fade-in absolute text-xs rounded-full font-bold -top-3 bg-blue-700 text-white -right-3">
+                {itemsInCart}
+              </span>
+            )}
             <IoCartOutline className="w-5 h-5" />
           </div>
         </Link>

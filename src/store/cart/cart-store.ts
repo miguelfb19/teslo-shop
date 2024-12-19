@@ -2,19 +2,21 @@ import { CartProduct } from "@/interfaces/product.interface";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+interface SummaryInformation {
+  subTotal: number;
+  tax: number;
+  total: number;
+  itemsInCart: number;
+} // Interface para información de resumen de la orden
+
 interface State {
   cart: CartProduct[];
-
-  getSummaryInformation: () => {
-    subTotal: number;
-    tax: number;
-    total: number;
-    itemsInCart: number;
-}
+  summary: SummaryInformation;
 
   addProductToCart: (product: CartProduct) => void;
   updateProductQuantity: (product: CartProduct, quantity: number) => void;
   removeProduct: (product: CartProduct) => void;
+  updateSummary: () => void;
 }
 
 export const useCartStore = create<State>()(
@@ -22,10 +24,16 @@ export const useCartStore = create<State>()(
     // el persist es una middleware de zustand que me guarda mi estado en localStorage
     (set, get) => ({
       cart: [],
+      summary: {
+        subTotal: 0,
+        tax: 0,
+        total: 0,
+        itemsInCart: 0,
+      },
 
       // Methods
 
-      getSummaryInformation: () => {
+      updateSummary: () => {
         const { cart } = get();
 
         const subTotal = cart.reduce((subTotal, product) => product.price * product.quantity + subTotal, 0)
@@ -37,7 +45,9 @@ export const useCartStore = create<State>()(
           0
         );
 
-        return { subTotal, tax, total, itemsInCart };
+         set({
+          summary: { subTotal, tax, total, itemsInCart }
+         })
       },
 
       addProductToCart: (product: CartProduct) => {
@@ -52,6 +62,7 @@ export const useCartStore = create<State>()(
           set((state) => ({
             cart: [...state.cart, product],
           }));
+          get().updateSummary();
           return;
         }
 
@@ -68,6 +79,7 @@ export const useCartStore = create<State>()(
         });
 
         set({ cart: updatedCartProducts });
+        get().updateSummary();
       },
       updateProductQuantity: (product: CartProduct, quantity: number) => {
         const { cart } = get();
@@ -83,6 +95,7 @@ export const useCartStore = create<State>()(
         });
 
         set({ cart: updatedCartProducts });
+        get().updateSummary();
       },
 
       removeProduct: (product: CartProduct) => {
@@ -93,6 +106,7 @@ export const useCartStore = create<State>()(
         );
 
         set({ cart: updatedCartProducts });
+        get().updateSummary();
       },
     }),
     {

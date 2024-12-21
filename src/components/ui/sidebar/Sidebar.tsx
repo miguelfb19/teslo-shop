@@ -1,5 +1,6 @@
 "use client";
 
+import { logout } from "@/actions/auth/logout";
 import { useUiStore } from "@/store";
 import clsx from "clsx";
 import Link from "next/link";
@@ -56,8 +57,9 @@ export const Sidebar = () => {
 
         {/* Menú */}
         <Link
-          href="/"
+          href="/profile"
           className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
+          onClick={closeMenu}
         >
           <IoPersonOutline size={20} />
           <span className="ml-3 text-md">Perfil</span>
@@ -65,6 +67,7 @@ export const Sidebar = () => {
         <Link
           href="/orders"
           className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
+          onClick={closeMenu}
         >
           <IoTicketOutline size={20} />
           <span className="ml-3 text-md">Ordenes</span>
@@ -72,6 +75,7 @@ export const Sidebar = () => {
         <Link
           href="/auth/login"
           className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
+          onClick={closeMenu}
         >
           <IoLogInOutline size={20} />
           <span className="ml-3 text-md">Ingresar</span>
@@ -79,6 +83,7 @@ export const Sidebar = () => {
         <Link
           href="/"
           className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
+          onClick={logout}
         >
           <IoLogOutOutline size={20} />
           <span className="ml-3 text-md">Salir</span>
@@ -89,6 +94,7 @@ export const Sidebar = () => {
         <Link
           href="/"
           className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
+          onClick={closeMenu}
         >
           <IoShirtOutline size={20} />
           <span className="ml-3 text-md">Productos</span>

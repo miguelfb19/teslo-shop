@@ -33,8 +33,42 @@ export const authConfig = {
 ```
 
 4. Hacer la configuración respectiva de proveedores de autenticación y rutas de login y signUp
-5. Conectar login form con NextAuth (<mark>IMPORTANTE</mark> en este punto verificar que cada campo del form este identificado con el name para ser parseado por NextAuth)
-6. Crear el esquema prisma para usuarios
+5. Crear el server action de autenticación, algo así:
+```
+'use server';
+ 
+import { signIn } from '@/auth.config';
+import { AuthError } from 'next-auth';
+ 
+
+interface Response {
+    status: number;
+    message: string;
+    ok: boolean;
+}
+
+export async function authenticate(
+  prevState: Response | undefined,
+  formData: FormData,
+) {
+  try {
+    await signIn('credentials', formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return {status: 401, message: 'Credeniales incorrectas.', ok: false}
+        default:
+          return {status: 500, message: 'Algo malió sal.', ok: false};
+      }
+    }
+    throw error;
+  }
+}
+```
+6. Conectar login form con NextAuth (<mark>IMPORTANTE</mark> en este punto verificar que cada campo del form este identificado con el name para ser parseado por NextAuth)
+7. Crear el esquema prisma para usuarios
+8. Hacer un seed (opcional) 
 
 
 

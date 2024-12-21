@@ -34,7 +34,7 @@ export const initialData: SeedData = {
     categories: ['Shirts','Pants','Hoodies','Hats'],
     users: [
         {
-            email: 'miguelangelfb19@gmail.com',
+            email: 'miguelangelfb19@utp.edu.co',
             name: 'Miguel Angel Fernandez',
             password: bcryptjs.hashSync('123456'),
             role: 'admin'
@@ -42,15 +42,16 @@ export const initialData: SeedData = {
         {
             email: 'vanessaalzate@gmail.com',
             name: 'Vaneza Alzate',
-            password: bcryptjs.hashSync('123456'),
+            password: bcryptjs.hashSync('Vaneza123456'),
             role: 'user'
         },
         {
             email: 'prueba1@gmail.com',
             name: 'Pepito Perez',
-            password: bcryptjs.hashSync('123456'),
+            password: bcryptjs.hashSync('Pepito123456'),
             role: 'user'
-        }
+        },
+        
     ],
     products: [
         {

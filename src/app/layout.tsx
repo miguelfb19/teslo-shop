@@ -11,11 +11,12 @@ export const metadata: Metadata = {
   description: "Tienda virtual creada en el curso de Fernando Herrera DevTales",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body className={`${inter.className}`}>{children}</body>

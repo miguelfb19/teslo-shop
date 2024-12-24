@@ -11,6 +11,25 @@ export const authConfig = {
     signIn: "/auth/login",
     newUser: "auth/new-account",
   },
+
+  // En estos callback puedo personalizar la respuesta que se envia al cliente
+  callbacks:{
+    jwt({token, user}){
+
+      if(user){
+        token.data = user
+      }
+
+      return token
+    },
+
+    session({session, token}){
+
+      session.user = token.data as any
+
+      return session
+    }
+  },
   providers: [
     Credentials({
       async authorize(credentials) {
@@ -46,4 +65,4 @@ export const authConfig = {
   ],
 } satisfies NextAuthConfig; // este es el tipado, puede ser tambien :NextAuthConfig en la definicion de la funcion
 
-export const { signIn, signOut, auth } = NextAuth(authConfig);
+export const { signIn, signOut, auth, handlers } = NextAuth(authConfig);

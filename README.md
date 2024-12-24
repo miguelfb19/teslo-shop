@@ -18,7 +18,7 @@ Documentación: https://authjs.dev/getting-started/installation?framework=Next.j
 
 1. Instalar next.auth (Auth.js) ```npm install next-auth@beta```
 2. Crear la variable de entorno AUTH_SECRET ```npx auth secret```
-3. Crear el archivo ```auth.config.js``` en el src del proyecto con el siguiente código:
+3. Crear el archivo ```auth.config.ts``` en el src del proyecto con el siguiente código:
 
 ```
 import type { NextAuthConfig } from 'next-auth';

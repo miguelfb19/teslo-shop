@@ -4,16 +4,21 @@ import { authenticate } from "@/actions/auth/login";
 import { LoadingSpinner } from "@/components/ui/loading-spinner/LoadingSpinner";
 import clsx from "clsx";
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { BsExclamationCircle } from "react-icons/bs";
 
 export const LoginForm = () => {
-  const [errorMessage, formAction, isPending] = useActionState(
+  const [state, formAction, isPending] = useActionState(
     authenticate,
     undefined
   );
-
-  
+  useEffect(() => {
+    // Si la autenticación es exitosa, recargar la página para actualizar los atributos protegidos
+    if (state?.status === 200) {
+      window.location.replace("/"); // También puedes usar window.location.reload()
+      // !Nota: Esto solo funciona si el atributo redirect del signIn es false
+    }
+  }, [state]);
 
   return (
     <form action={formAction} className="flex flex-col">
@@ -45,10 +50,10 @@ export const LoginForm = () => {
       </button>
 
       <div className="flex gap-2 items-center justify-center mt-5">
-        {errorMessage && (
+        {state && state.status != 200 && (
           <>
             <BsExclamationCircle className="h-5 w-5 text-red-500" />
-            <p className="text-sm text-red-500">{errorMessage.message}</p>
+            <p className="text-sm text-red-500">{state.message}</p>
           </>
         )}
       </div>

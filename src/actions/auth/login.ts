@@ -30,6 +30,16 @@ export async function authenticate(
           return { status: 500, message: "Algo malió sal.", ok: false };
       }
     }
-    throw error;
+  }
+}
+
+export const customLogin = async (email: string, password: string) => {
+
+  try {
+    await signIn("credentials", {email, password});
+    return { ok: true, message: "Ingresado correctamente" };
+  } catch (error) {
+    console.error(error);
+    return { ok: false, message: "Credenciales incorrectas" };
   }
 }

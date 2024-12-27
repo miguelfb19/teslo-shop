@@ -13,22 +13,47 @@ export const authConfig = {
   },
 
   // En estos callback puedo personalizar la respuesta que se envia al cliente
-  callbacks:{
-    jwt({token, user}){
+  callbacks: {
+    // authorized({ auth, request: { nextUrl } }) {
 
-      if(user){
-        token.data = user
+    //   console.log({auth})
+
+    //   // const isLoggedIn = !!auth?.user;
+    //   // const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
+    //   // if (isOnDashboard) {
+    //   //   if (isLoggedIn) return true;
+    //   //   return false; // Redirect unauthenticated users to login page
+    //   // } else if (isLoggedIn) {
+    //   //   return Response.redirect(new URL('/dashboard', nextUrl));
+    //   // }
+    //   return true;
+    // },
+    jwt({ token, user }) {
+      if (user) {
+        token.data = user;
       }
 
-      return token
+      return token;
     },
 
-    session({session, token}){
+    async session({ session, token }) {
+      // Obtenemos el usuario de la base de datos
+      const user = await prisma.user.findUnique({
+        where: { email: token.email! },
+      });
 
-      session.user = token.data as any
+      session.user = token.data as any;
 
-      return session
-    }
+      // ! Actualizamos el rol en caso de que se haya cambiado en la base de datos.
+      /*Esto es especialmente útil a la hora de actualizar en tiempo real algún dato sobre el usuario del lado del cliente
+       ya que al hacer un cambio en la base de datos no se hace este cambio autómaticamente sin primero refrescarlo desde 
+       estos callbacks donde viaja la información de la sessión
+       útil para campos como emailVerified, role, y otros importantes*/
+
+      if (user) session.user.role = user.role;
+
+      return session;
+    },
   },
   providers: [
     Credentials({
@@ -53,7 +78,7 @@ export const authConfig = {
           if (!bcryptjs.compareSync(password, user.password)) return null;
 
           // Return usuario e información relevante
-          const { password: _, ...rest } = user; // lo que hicimos con el guin bajo basicamente es renombrar la variable para que no tenga conflicto
+          const { password: _, ...rest } = user; // lo que hicimos con el guio bajo basicamente es renombrar la variable para que no tenga conflicto
 
           return rest;
         } catch (error) {

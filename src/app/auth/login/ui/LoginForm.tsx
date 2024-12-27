@@ -6,41 +6,49 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useActionState, useEffect } from "react";
 import { BsExclamationCircle } from "react-icons/bs";
+import { PasswordInput } from "../../../../components/ui/password/PasswordInput";
+
+export interface SignInInputs {
+  email: string;
+  password: string;
+}
 
 export const LoginForm = () => {
   const [state, formAction, isPending] = useActionState(
     authenticate,
     undefined
   );
+
   useEffect(() => {
-    // Si la autenticación es exitosa, recargar la página para actualizar los atributos protegidos
-    if (state?.status === 200) {
+    if (state?.ok) {
       window.location.replace("/"); // También puedes usar window.location.reload()
       // !Nota: Esto solo funciona si el atributo redirect del signIn es false
     }
   }, [state]);
 
   return (
-    <form action={formAction} className="flex flex-col">
+    <form
+      action={formAction}
+      className="flex flex-col"
+    >
       <label htmlFor="email">Correo electrónico</label>
       <input
-        className="px-5 py-2 border bg-gray-200 rounded mb-5"
+        className="px-5 py-2 border bg-gray-200 rounded mb-1"
         type="email"
         id="email"
         name="email"
       />
 
-      <label htmlFor="password">Contraseña</label>
-      <input
-        className="px-5 py-2 border bg-gray-200 rounded mb-5"
-        type="password"
-        id="password"
-        name="password"
+      <PasswordInput
+        inputClassName="px-5 py-2 border bg-gray-200 rounded mb-1"
+        labelClassName="mt-5"
+        nameAndId="password"
+        label="Contraseña"
       />
 
       <button
         type="submit"
-        className={clsx("btn-primary flex items-center justify-center", {
+        className={clsx("btn-primary flex items-center justify-center mt-5", {
           "pointer-events-none opacity-50": isPending,
         })}
         aria-disabled={isPending}

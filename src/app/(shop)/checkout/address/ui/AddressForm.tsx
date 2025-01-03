@@ -1,6 +1,14 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+import { setUserAddress } from "@/actions/address/setUserAddress";
+import { SeedCountry } from "@/interfaces/country";
+import { useAddressStore } from "@/store/address/address-store";
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa6";
 
@@ -16,19 +24,45 @@ interface FormInputs {
   rememberAddress: boolean;
 }
 
-export const AddressForm = () => {
+interface Props {
+  countries: SeedCountry[];
+}
+
+export const AddressForm = ({ countries }: Props) => {
+  const setAddress = useAddressStore((state) => state.setAddress);
+  const address = useAddressStore((state) => state.address);
+
+  const { data: session } = useSession({
+    required: true, // Esta propiedad me permite saber si hay un usuario logeado y si no lo retorna al login
+  });
+
   const {
     register,
     formState: { errors, isValid },
     handleSubmit,
+    reset,
   } = useForm<FormInputs>({
     defaultValues: {
-      //   Todo: leer de la DB
+      // todo: traerlo de la DB
     },
   });
 
+  useEffect(() => {
+    if (address.firstName) reset(address);
+  }, []);
+
   const onSubmit = (data: FormInputs) => {
-    console.log(data);
+    setAddress(data);
+
+    const { rememberAddress, ...restAddress } = data;
+
+    console.log(restAddress);
+
+    if (data.rememberAddress) {
+      setUserAddress(restAddress, session!.user.id);
+    } else {
+      // todo: borrar la dirección de la DB
+    }
   };
 
   return (
@@ -95,10 +129,17 @@ export const AddressForm = () => {
           <span>País</span>
           <select
             className="p-2 border rounded-md bg-gray-200"
-            {...register("country", { required: true })}
+            {...register("country", {
+              required: true,
+              validate: (value) => value !== "none",
+            })}
           >
-            <option value="">[ Seleccione ]</option>
-            <option value="CRI">Costa Rica</option>
+            <option value="none">[ Seleccione ]</option>
+            {countries.map(({ name, id, indicative }) => (
+              <option key={id} value={`${name} (${indicative})`}>
+                {`${name} (${indicative})`}
+              </option>
+            ))}
           </select>
         </div>
 

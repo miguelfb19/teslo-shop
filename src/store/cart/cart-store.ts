@@ -13,6 +13,7 @@ interface State {
   cart: CartProduct[];
   summary: SummaryInformation;
 
+  // Methods
   addProductToCart: (product: CartProduct) => void;
   updateProductQuantity: (product: CartProduct, quantity: number) => void;
   removeProduct: (product: CartProduct) => void;

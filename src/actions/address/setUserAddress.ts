@@ -24,7 +24,7 @@ export const setUserAddress = async (address: Address, userId: string) => {
 const createOrReplaceAddress = async (userId: string, address: Address) => {
   try {
 
-    
+    // Buscamos en la ddbb si existe la dirección ya creada
     const storedAddress = await prisma.userAddress.findFirst({
       where: {
         userId: userId,
@@ -40,22 +40,20 @@ const createOrReplaceAddress = async (userId: string, address: Address) => {
       select:{
         id: true
       }
-    })
+    });
     
-    console.log('countryId:', countryId)
-    
-    
+    console.log('userId:', userId)
     
     const addressToSave = {
-      firstName: address.firstName,
-      lastName: address.lastName,
-      address: address.address,
-      address2: address.address2,
-      city: address.city,
-      postalCode: address.postalCode,
-      phone: address.phone,
-      countryId: countryId!.id,
-      userId: userId,
+      userId: userId ? userId : '',
+      firstName: address.firstName ? address.firstName :'',
+      lastName: address.lastName ? address.lastName :'',
+      address: address.address ? address.address :'',
+      address2: address.address2 ? address.address2 :'',
+      city: address.city ? address.city : '',
+      postalCode: address.postalCode ? address.postalCode :'',
+      phone: address.phone ? address.phone :'',
+      countryId: countryId?.id ? countryId.id :'',
     };
 
     console.log('addressToSave:', addressToSave);
@@ -77,9 +75,7 @@ const createOrReplaceAddress = async (userId: string, address: Address) => {
       where: {
         userId: userId,
       },
-      data: {
-        ...addressToSave,
-      },
+      data: addressToSave
     });
 
     return updatedAddres;

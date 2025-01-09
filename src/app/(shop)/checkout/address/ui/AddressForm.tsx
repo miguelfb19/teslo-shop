@@ -3,11 +3,14 @@
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-import { setUserAddress } from "@/actions/address/setUserAddress";
+import { deleteUserAddress } from "@/actions/address/delete-user-address";
+import { setUserAddress } from "@/actions/address/set-user-address";
+import { Address } from "@/interfaces/address";
 import { SeedCountry } from "@/interfaces/country";
 import { useAddressStore } from "@/store/address/address-store";
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa6";
@@ -26,11 +29,13 @@ interface FormInputs {
 
 interface Props {
   countries: SeedCountry[];
+  userStoredAddress?: Partial<Address>;
 }
 
-export const AddressForm = ({ countries }: Props) => {
+export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
   const setAddress = useAddressStore((state) => state.setAddress);
   const address = useAddressStore((state) => state.address);
+  const router = useRouter();
 
   const { data: session } = useSession({
     required: true, // Esta propiedad me permite saber si hay un usuario logeado y si no lo retorna al login
@@ -38,12 +43,15 @@ export const AddressForm = ({ countries }: Props) => {
 
   const {
     register,
-    formState: { errors, isValid },
+    formState: { isValid },
     handleSubmit,
     reset,
   } = useForm<FormInputs>({
     defaultValues: {
       // todo: traerlo de la DB
+      ...userStoredAddress,
+      rememberAddress:
+        Object.keys(userStoredAddress).length === 0 ? false : true,
     },
   });
 
@@ -52,16 +60,20 @@ export const AddressForm = ({ countries }: Props) => {
   }, []);
 
   const onSubmit = (data: FormInputs) => {
-    setAddress(data);
+    try {
+      setAddress(data);
 
-    const { rememberAddress, ...restAddress } = data;
+      const { rememberAddress, ...restAddress } = data;
 
-    console.log(restAddress);
+      if (rememberAddress) {
+        setUserAddress(restAddress, session!.user.id);
+      } else {
+        deleteUserAddress(session!.user.id);
+      }
 
-    if (data.rememberAddress) {
-      setUserAddress(restAddress, session!.user.id);
-    } else {
-      // todo: borrar la dirección de la DB
+      router.push("/checkout");
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -164,7 +176,6 @@ export const AddressForm = ({ countries }: Props) => {
                   type="checkbox"
                   className="flex before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-600 checked:bg-blue-600 checked:before:bg-blue-600 hover:before:opacity-10"
                   id="checkbox"
-                  //   checked
                   {...register("rememberAddress")}
                 />
                 <div className="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">

@@ -23,7 +23,6 @@ export const setUserAddress = async (address: Address, userId: string) => {
 
 const createOrReplaceAddress = async (userId: string, address: Address) => {
   try {
-
     // Buscamos en la ddbb si existe la dirección ya creada
     const storedAddress = await prisma.userAddress.findFirst({
       where: {
@@ -32,41 +31,32 @@ const createOrReplaceAddress = async (userId: string, address: Address) => {
     });
 
     // Debemos obtener el countryId desde la DB debido a que no es el mismo id que en el dato que viene del form
-    const countryName = address.country.split(' ')[0]
+    const countryName = address.country.split(" ")[0];
     const countryId = await prisma.country.findFirst({
       where: {
-        name: countryName
+        name: countryName,
       },
-      select:{
-        id: true
-      }
+      select: {
+        id: true,
+      },
     });
-    
-    console.log('userId:', userId)
-    
+
     const addressToSave = {
-      userId: userId ? userId : '',
-      firstName: address.firstName ? address.firstName :'',
-      lastName: address.lastName ? address.lastName :'',
-      address: address.address ? address.address :'',
-      address2: address.address2 ? address.address2 :'',
-      city: address.city ? address.city : '',
-      postalCode: address.postalCode ? address.postalCode :'',
-      phone: address.phone ? address.phone :'',
-      countryId: countryId?.id ? countryId.id :'',
+      userId: userId,
+      firstName: address.firstName,
+      lastName: address.lastName,
+      address: address.address,
+      address2: address.address2,
+      city: address.city,
+      postalCode: address.postalCode,
+      phone: address.phone,
+      countryId: countryId!.id,
     };
 
-    console.log('addressToSave:', addressToSave);
-    
-
     if (!storedAddress) {
-
-      console.log('ingresamos al create userAddress')
       const newAddress = await prisma.userAddress.create({
-        data: addressToSave
+        data: { ...addressToSave },
       });
-      
-      console.log('hola despues del create')
 
       return newAddress;
     }
@@ -75,7 +65,7 @@ const createOrReplaceAddress = async (userId: string, address: Address) => {
       where: {
         userId: userId,
       },
-      data: addressToSave
+      data: addressToSave,
     });
 
     return updatedAddres;

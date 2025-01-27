@@ -57,6 +57,8 @@ model Product {
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
 
+  OrderItems OrderItems[]
+
   @@index([gender])
 }
 
@@ -79,14 +81,20 @@ model User {
   image         String?
 
   userAddress UserAddress?
+
+  // Relaciones
+  Order Order[]
 }
 
 model Country {
-  id          String        @id @default(cuid())
-  name        String
-  code        String
-  indicative  String
-  UserAddress UserAddress[]
+  id         String @id @default(cuid())
+  name       String
+  code       String
+  indicative String
+
+  // Relaciones
+  UserAddress  UserAddress[]
+  OrderAddress OrderAddress[]
 }
 
 model UserAddress {
@@ -104,6 +112,63 @@ model UserAddress {
   country   Country @relation(fields: [countryId], references: [id])
   countryId String
 
-  user User @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
   userId String @unique
+}
+
+// Orden de compras
+
+model Order {
+  id          String    @id @default(uuid())
+  subtotal    Float
+  total       Float
+  tax         Float
+  itemInOrder Int
+  isPaid      Boolean @default(false)
+  paidAt      DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  OrderItems   OrderItems[]
+  OrderAddress OrderAddress?
+}
+
+model OrderItems {
+  id       String @id @default(uuid())
+  quantity Int
+  price    Float
+  size     Size
+
+  // Relaciones
+
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId String
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+}
+
+model OrderAddress {
+  id         String  @id @default(uuid())
+  firstName  String
+  lastName   String
+  address    String
+  address2   String?
+  postalCode String
+  city       String
+  phone      String
+
+  // Relaciones
+
+  country   Country @relation(fields: [countryId], references: [id])
+  countryId String
+
+  Order   Order  @relation(fields: [orderId], references: [id])
+  orderId String @unique
 }

@@ -2,10 +2,21 @@
 
 import prisma from "@/lib/prisma";
 
-export const getAddresFromDatabase = async (userId: string) => {
+export const getAddresFromDatabase = async (user: string) => {
   try {
     const address = await prisma.userAddress.findUnique({
-      where: { userId },
+      where: { userId: user },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        address: true,
+        address2: true,
+        postalCode: true,
+        phone: true,
+        city: true,
+        countryId: true,
+      },
     });
     if (!address) {
       return {};
@@ -16,7 +27,7 @@ export const getAddresFromDatabase = async (userId: string) => {
       },
     });
     const { countryId, address2, ...restAddress } = address;
-  
+
     return {
       country: `${country?.name} (${country?.indicative})`,
       address2: address2 ? address2 : "",

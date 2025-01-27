@@ -25,6 +25,8 @@ interface FormInputs {
   country: string;
   phone: string;
   rememberAddress: boolean;
+  userId?: string;
+  id?: string;
 }
 
 interface Props {
@@ -48,7 +50,7 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
     reset,
   } = useForm<FormInputs>({
     defaultValues: {
-      // todo: traerlo de la DB
+      // Datos extraidos de la DB
       ...userStoredAddress,
       rememberAddress:
         Object.keys(userStoredAddress).length === 0 ? false : true,
@@ -61,9 +63,9 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
 
   const onSubmit = (data: FormInputs) => {
     try {
-      setAddress(data);
-
-      const { rememberAddress, ...restAddress } = data;
+      const { userId, id, ...restData } = data;
+      setAddress(restData);
+      const { rememberAddress, ...restAddress } = restData;
 
       if (rememberAddress) {
         setUserAddress(restAddress, session!.user.id);

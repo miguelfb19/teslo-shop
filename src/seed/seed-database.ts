@@ -4,6 +4,9 @@ import prisma from "../lib/prisma";
 async function main() {
   //   Borrar registros previos
 
+  await prisma.orderAddress.deleteMany()
+  await prisma.orderItems.deleteMany()
+  await prisma.order.deleteMany()
   await prisma.userAddress.deleteMany();
   await prisma.productImage.deleteMany();
   await prisma.product.deleteMany();

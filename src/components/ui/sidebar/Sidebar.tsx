@@ -5,8 +5,6 @@ import { useUiStore } from "@/store";
 import clsx from "clsx";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import {
   IoCloseOutline,
   IoSearchOutline,

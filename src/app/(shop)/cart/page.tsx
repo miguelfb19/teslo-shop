@@ -8,11 +8,11 @@ import { useCartStore } from "@/store/cart/cart-store";
 import { OrderSummary } from "./ui/OrderSummary";
 
 export default function CartPage() {
-  // const cart = useCartStore((state) => state.cart);
+  const cart = useCartStore((state) => state.cart);
 
-  // if (cart.length === 0 ) {
-  //   redirect("/empty");
-  // }
+  if (cart.length === 0 ) {
+    redirect("/empty");
+  }
   return (
     <div className="flex justify-center items-center mb-72 px-10 w-full sm:px-0">
       <div className="flex flex-col w-full">

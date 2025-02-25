@@ -1,10 +1,11 @@
+"use client";
+
 import { Title } from "@/components";
 import Link from "next/link";
 import { ProductsInCartCheckout } from "./ui/ProductsInCartCheckout";
-import { PlaceOrder } from './ui/PlaceOrder';
+import { PlaceOrder } from "./ui/PlaceOrder";
 
-export default async function CheckoutPage() {
-
+export default function CheckoutPage() {
   return (
     <div className="flex justify-center items-center mb-72 px-10 w-full sm:px-0">
       <div className="flex flex-col w-full">

@@ -6,6 +6,7 @@ import { NotOrderExist } from "../ui/NotOrderExist";
 import { DeliveryAddressOrder } from "../ui/DeliveryAddressOrder";
 import { OrderSummary } from "../ui/OrderSummary";
 import { OrderItemsComponent } from '../ui/OrderItemsComponent';
+import { PaypalButton } from '../../../../components/paypal/PaypalButton';
 
 interface Props {
   params: Promise<{
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export default async function OrdersIdPage({ params }: Props) {
+
   const { id } = await params;
 
   const order = await getOrderById(id);
@@ -71,7 +73,7 @@ export default async function OrdersIdPage({ params }: Props) {
               tax={tax}
             />
 
-            <div
+            {/* <div
               className={clsx(
                 "flex items-center rounded-lg py-2 px-5 text-xs font-bold text-white mb-5 mt-5",
                 {
@@ -84,7 +86,8 @@ export default async function OrdersIdPage({ params }: Props) {
               <span className="mx-2">
                 {isPaid ? "Orden pagada" : "Orden sin pagar"}
               </span>
-            </div>
+            </div> */}
+            <PaypalButton orderId={order.id} amount={order.total}/>
 
             <div className="mt-5 mb-2 w-full"></div>
           </div>

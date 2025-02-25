@@ -5,10 +5,13 @@ import { useAddressStore } from "@/store/address/address-store";
 import { useCartStore } from "@/store/cart/cart-store";
 import { currencyFormat } from "@/utils/currencyFormat";
 import clsx from "clsx";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export const PlaceOrder = () => {
+  const router = useRouter();
   const [loaded, setLoaded] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
   const { rememberAddress, ...restAddress } = useAddressStore(
@@ -18,9 +21,10 @@ export const PlaceOrder = () => {
     (state) => state.summary
   );
 
-  const cart = useCartStore((state) => state.cart);
+  const { cart } = useCartStore((state) => state);
+  const cleanCart = useCartStore((state) => state.cleanCart);
 
-  // Esta desestructuración es para usarla en la interfaz
+  // Esta desestructuración es para usarla en la UI
   const {
     firstName,
     lastName,
@@ -36,7 +40,6 @@ export const PlaceOrder = () => {
   }, []);
 
   const onPlaceOrder = async () => {
-    
     setIsPlacingOrder(true);
 
     const productsToOrder = cart.map((product) => ({
@@ -50,11 +53,21 @@ export const PlaceOrder = () => {
       address2: address2 ? address2 : "",
       ...restAddress,
     };
-    const resp = await placeOrder(productsToOrder, addressToOrder)
 
-    console.log({resp});
-    
-    setIsPlacingOrder(false);
+    const resp = await placeOrder(productsToOrder, addressToOrder);
+
+    if (!resp.ok) {
+      setIsPlacingOrder(false);
+      setErrorMessage(resp.message);
+      if(resp.flag === "empty-order"){
+        router.push("/");
+      }
+      return;
+    }
+
+    //* Todo salio bien!
+    cleanCart();
+    router.replace(`/orders/${resp.order?.id}`);
   };
 
   if (!loaded) {
@@ -115,9 +128,7 @@ export const PlaceOrder = () => {
       </div>
 
       <div className="mt-5 mb-2 w-full">
-        {/* <p className="text-red-500 text-sm">Error de creación</p> */}
         <button
-          // href="/checkout/address"
           onClick={onPlaceOrder}
           className={clsx("flex justify-center", {
             "btn-primary": !isPlacingOrder,
@@ -126,6 +137,9 @@ export const PlaceOrder = () => {
         >
           Confirmar orden
         </button>
+        <span className="text-red-500 text-sm mt-2">
+          {errorMessage != "" && errorMessage}
+        </span>
       </div>
     </div>
   );

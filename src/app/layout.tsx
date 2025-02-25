@@ -3,6 +3,7 @@ import { inter } from "@/config/fonts";
 
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
+import PaypalProvider from "./providers/PaypalProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -17,11 +18,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
-        <SessionProvider>{children}</SessionProvider>
+        <PaypalProvider>
+          <SessionProvider>{children}</SessionProvider>
+        </PaypalProvider>
       </body>
     </html>
   );

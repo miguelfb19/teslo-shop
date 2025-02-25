@@ -60,6 +60,16 @@ export const placeOrder = async (
     { total: 0, subtotal: 0, tax: 0 }
   );
 
+  // Verificamos que no sean valores en 0 o negativo
+
+  if (subtotal <= 0 || total <= 0) {
+    return {
+      ok: false,
+      message: "El total de la orden no puede ser 0 o negativo",
+      flag: "empty-order"
+    };
+  }
+
   // Crear la transaccion en la base de datos
 
   try {
@@ -90,7 +100,7 @@ export const placeOrder = async (
       // Verificar valores negativos = no hay stock
 
       updatedProducts.forEach((product) => {
-        if (product.inStock <= 0) {
+        if (product.inStock < 0) {
           throw new Error(`${product.title} no tiene inventario suficiente`);
         }
       });

@@ -59,14 +59,14 @@ export const PaypalButton = ({ orderId, amount }: Props) => {
 
   if (isPending)
     return (
-      <div className="animate-pulse flex flex-col gap-3 mt-5 mb-10">
+      <div className="animate-pulse flex flex-col gap-3 mt-5 mb-10 z-0">
         <div className="h-12 bg-gray-200 rounded" />
         <div className="h-12 bg-gray-200 rounded" />
       </div>
     );
 
   return (
-    <div className="mt-5">
+    <div id="paypal-buttons-container" className="mt-5 relative z-0">
       <PayPalButtons createOrder={createOrderId} onApprove={onApprove} />
     </div>
   );

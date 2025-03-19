@@ -85,7 +85,7 @@ export const Sidebar = () => {
             onClick={closeMenu}
           >
             <IoTicketOutline size={20} />
-            <span className="ml-3 text-md">Ordenes</span>
+            <span className="ml-3 text-md">Mis ordenes</span>
           </Link>
         )}
         {!session ? (
@@ -115,7 +115,7 @@ export const Sidebar = () => {
             <div className="w-full h-px bg-gray-200 my-10" />
             <div>
               <Link
-                href="/"
+                href="/admin/products"
                 className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
                 onClick={closeMenu}
               >
@@ -123,15 +123,17 @@ export const Sidebar = () => {
                 <span className="ml-3 text-md">Productos</span>
               </Link>
               <Link
-                href="/"
+                href="/admin/orders"
                 className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
+                onClick={closeMenu}
               >
                 <IoTicketOutline size={20} />
-                <span className="ml-3 text-md">Ordenes</span>
+                <span className="ml-3 text-md">Todas las ordenes</span>
               </Link>
               <Link
-                href="/"
+                href="/admin/users"
                 className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
+                onClick={closeMenu}
               >
                 <IoPeopleOutline size={20} />
                 <span className="ml-3 text-md">Usuarios</span>

@@ -1,12 +1,10 @@
 "use server";
 
+import cloudinary from "@/lib/cloudinary";
 import prisma from "@/lib/prisma";
 import { Gender, Product, Size } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { v2 as cloudinary } from "cloudinary";
-
-cloudinary.config(process.env.CLOUDINARY_URL ?? "");
 
 const ProductSchema = z.object({
   id: z.string().uuid().optional().nullable(),

@@ -1,6 +1,7 @@
 "use client";
 
 import { createUpdateProduct } from "@/actions/admin/products/create-update-product";
+import { deleteImage } from "@/actions/admin/products/delete-image";
 import { ProductImage } from "@/components/product/product-image/ProductImage";
 import { Product } from "@/interfaces";
 import { ProductImage as ProductImageInterface, Size } from "@/interfaces/product.interface";
@@ -231,19 +232,19 @@ export const ProductForm = ({ product, categories }: Props) => {
             {product.ProductImage?.map((img) => (
               <div
                 key={img.id}
-                className="hover:shadow-2xl hover:scale-105 transition-all duration-300"
+                className="hover:shadow-2xl hover:scale-105 transition-all duration-300 max-md:flex max-md:w-3/4"
               >
                 <ProductImage
                   src={img.url}
                   alt={product.title ?? "Product image"}
-                  className="rounded-t-md shadow-xl"
+                  className="md:rounded-t-md shadow-xl max-md:rounded-l"
                   width={300}
                   height={300}
                 />
                 <button
                   type="button"
-                  onClick={() => console.log(img.id, img.url)}
-                  className="btn-danger w-full rounded-t-none rounded-b-md shadow-xl"
+                  onClick={() => deleteImage(img.id, img.url)}
+                  className="btn-danger md:w-full md:rounded-t-none md:rounded-b-md max-md:rounded-r shadow-xl"
                 >
                   Eliminar
                 </button>

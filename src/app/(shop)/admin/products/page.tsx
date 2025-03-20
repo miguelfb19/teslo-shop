@@ -3,8 +3,8 @@ import { Title } from "@/components";
 import Link from "next/link";
 import { getPaginatedProductsWithImages } from "@/actions/products/products-pagination";
 import { Pagination } from "@/components/ui/pagination/Pagination";
-import Image from "next/image";
 import { currencyFormat } from "@/utils";
+import { ProductImage } from "@/components/product/product-image/ProductImage";
 
 interface Props {
   searchParams: Promise<{
@@ -80,12 +80,12 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
               >
                 <td>
                   <Link href={`/product/${product.slug}`}>
-                    <Image
-                      src={`/products/${product.ProductImage[0].url}`}
+                    <ProductImage
+                      src={product.ProductImage[0]?.url}
+                      alt={product.title}
                       width={80}
                       height={80}
-                      alt={product.slug}
-                      className="rounded-md shadow-lg"
+                      className="w-20 h-20 object-cover rounded"
                     />
                   </Link>
                 </td>

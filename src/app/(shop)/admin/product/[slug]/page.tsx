@@ -3,6 +3,7 @@ import { Title } from "../../../../../components/ui/title/Title";
 import { redirect } from "next/navigation";
 import { ProductForm } from "./ui/ProductForm";
 import { getAllCategories } from "@/actions/categories/get-categories";
+import { Product } from "@/interfaces";
 interface Props {
   params: Promise<{
     slug: string;
@@ -20,14 +21,14 @@ export default async function AdminProductPage({ params }: Props) {
 
   const { categories } = data;
 
-  if (!product) redirect("/admin/products");
+  if (!product && slug !== 'new') redirect("/admin/products");
 
   const title = slug === "new" ? "Nuevo producto" : "Editar producto";
 
   return (
     <div>
       <Title title={title} />
-      <ProductForm product={product} categories={categories ?? []} />
+      <ProductForm product={product ?? {} as Product} categories={categories ?? []} />
     </div>
   );
 }

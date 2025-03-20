@@ -8,7 +8,7 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 
 interface Props {
-  product: Product & { ProductImage?: ProductImage[] };
+  product: Partial<Product> & { ProductImage?: ProductImage[] };
   categories: { id: string; name: string }[];
 }
 
@@ -39,7 +39,7 @@ export const ProductForm = ({ product, categories }: Props) => {
   } = useForm<FormInputs>({
     defaultValues: {
       ...product,
-      tags: product.tags.join(","),
+      tags: product.tags?.join(","),
     },
   });
 
@@ -47,17 +47,9 @@ export const ProductForm = ({ product, categories }: Props) => {
   watch("sizes");
 
   const onSizeChanged = (newSize: string) => {
-    const sizes = getValues("sizes");
-
-    if (sizes.includes(newSize)) {
-      setValue(
-        "sizes",
-        sizes.filter((size) => size !== newSize)
-      );
-      return;
-    }
-
-    setValue("sizes", [...sizes, newSize]);
+    const sizes = new Set(getValues("sizes"));
+    sizes.has(newSize) ? sizes.delete(newSize) : sizes.add(newSize);
+    setValue("sizes", Array.from(sizes));
   };
 
   const onSubmit = async (data: FormInputs) => {
@@ -65,21 +57,22 @@ export const ProductForm = ({ product, categories }: Props) => {
 
     const { ...productToSave } = data;
 
-    formData.append("id", product.id ?? "")
-    formData.append("title", productToSave.title ?? "");
-    formData.append("description", productToSave.description ?? "");
-    formData.append("gender", productToSave.gender ?? "");
-    formData.append("inStock", productToSave.inStock.toString() ?? "");
-    formData.append("price", productToSave.price.toString() ?? "");
-    formData.append("sizes", productToSave.sizes.toString() ?? "");
-    formData.append("tags", productToSave.tags ?? "");
-    formData.append("categoryId", productToSave.categoryId ?? "");
-    formData.append("slug", productToSave.slug ?? "");
+    if (product.id) {
+      formData.append("id", product.id ?? "");
+    }
+    formData.append("title", productToSave.title);
+    formData.append("description", productToSave.description);
+    formData.append("gender", productToSave.gender);
+    formData.append("inStock", productToSave.inStock.toString());
+    formData.append("price", productToSave.price.toString());
+    formData.append("sizes", productToSave.sizes.toString());
+    formData.append("tags", productToSave.tags);
+    formData.append("categoryId", productToSave.categoryId);
+    formData.append("slug", productToSave.slug);
 
-    const {ok} = await createUpdateProduct(formData);
+    const { ok } = await createUpdateProduct(formData);
 
-    console.log({ok});
-
+    console.log({ ok });
   };
 
   return (
@@ -117,7 +110,7 @@ export const ProductForm = ({ product, categories }: Props) => {
         </div>
 
         <div className="flex flex-col mb-2">
-          <span>Price</span>
+          <span>Precio</span>
           <input
             type="number"
             className="p-2 border rounded-md bg-gray-200"
@@ -126,7 +119,7 @@ export const ProductForm = ({ product, categories }: Props) => {
         </div>
 
         <div className="flex flex-col mb-2">
-          <span>Tags</span>
+          <span>Etiquetas</span>
           <input
             type="text"
             className="p-2 border rounded-md bg-gray-200"
@@ -135,7 +128,7 @@ export const ProductForm = ({ product, categories }: Props) => {
         </div>
 
         <div className="flex flex-col mb-2">
-          <span>Gender</span>
+          <span>Género</span>
           <select
             className="p-2 border rounded-md bg-gray-200"
             {...register("gender", { required: true })}
@@ -169,6 +162,14 @@ export const ProductForm = ({ product, categories }: Props) => {
       {/* Selector de tallas y fotos */}
       <div className="w-full">
         {/* As checkboxes */}
+        <div className="flex flex-col mb-2">
+          <span>Inventario</span>
+          <input
+            type="number"
+            className="p-2 border rounded-md bg-gray-200"
+            {...register("inStock", { required: true, min: 0 })}
+          />
+        </div>
         <div className="flex flex-col">
           <span>Tallas</span>
           <div className="flex flex-wrap">
@@ -179,7 +180,7 @@ export const ProductForm = ({ product, categories }: Props) => {
                 className={clsx(
                   "flex items-center justify-center w-10 h-10 mr-2 border rounded-md cursor-pointer hover:border-2 hover:brightness-95 transition-all duration-200",
                   {
-                    "bg-blue-500 text-white": getValues("sizes").includes(
+                    "bg-blue-500 text-white": getValues("sizes")?.includes(
                       size as Size
                     ),
                   }
@@ -208,7 +209,7 @@ export const ProductForm = ({ product, categories }: Props) => {
               >
                 <Image
                   src={`/products/${img.url}`}
-                  alt={product.title}
+                  alt={product.title ?? "Product image"}
                   className="rounded-t-md shadow-xl"
                   width={300}
                   height={300}

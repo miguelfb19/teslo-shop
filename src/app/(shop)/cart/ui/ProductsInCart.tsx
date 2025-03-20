@@ -1,8 +1,8 @@
 "use client";
 
 import { QuantitySelector } from "@/components";
+import { ProductImage } from "@/components/product/product-image/ProductImage";
 import { useCartStore } from "@/store/cart/cart-store";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -26,8 +26,8 @@ export const ProductsInCart = () => {
           key={product.id + product.size}
           className="flex max-sm:flex-wrap mb-5"
         >
-          <Image
-            src={`/products/${product.image}`}
+          <ProductImage
+            src={product.image}
             width={100}
             height={100}
             style={{

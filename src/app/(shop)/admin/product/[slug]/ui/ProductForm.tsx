@@ -1,14 +1,16 @@
 "use client";
 
 import { createUpdateProduct } from "@/actions/admin/products/create-update-product";
+import { ProductImage } from "@/components/product/product-image/ProductImage";
 import { Product } from "@/interfaces";
-import { ProductImage, Size } from "@/interfaces/product.interface";
+import { ProductImage as ProductImageInterface, Size } from "@/interfaces/product.interface";
+import { toast } from "@pheralb/toast";
 import clsx from "clsx";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 interface Props {
-  product: Partial<Product> & { ProductImage?: ProductImage[] };
+  product: Partial<Product> & { ProductImage?: ProductImageInterface[] };
   categories: { id: string; name: string }[];
 }
 
@@ -24,11 +26,15 @@ interface FormInputs {
   slug: string;
 
   //todo: images
+  images?: FileList
 }
 
 const validSizes = ["XS", "S", "M", "L", "XL", "XXL"];
 
 export const ProductForm = ({ product, categories }: Props) => {
+
+  const router = useRouter()
+
   const {
     handleSubmit,
     register,
@@ -40,6 +46,7 @@ export const ProductForm = ({ product, categories }: Props) => {
     defaultValues: {
       ...product,
       tags: product.tags?.join(","),
+      images: undefined
     },
   });
 
@@ -55,7 +62,7 @@ export const ProductForm = ({ product, categories }: Props) => {
   const onSubmit = async (data: FormInputs) => {
     const formData = new FormData();
 
-    const { ...productToSave } = data;
+    const { images, ...productToSave } = data;
 
     if (product.id) {
       formData.append("id", product.id ?? "");
@@ -70,9 +77,27 @@ export const ProductForm = ({ product, categories }: Props) => {
     formData.append("categoryId", productToSave.categoryId);
     formData.append("slug", productToSave.slug);
 
-    const { ok } = await createUpdateProduct(formData);
+    if(images){
+      for (let i = 0; i < images.length; i++) {
+        formData.append("images", images[i]);
+      }
+   
+    }
 
-    console.log({ ok });
+    const { ok, product: newProduct } = await createUpdateProduct(formData);
+
+    if(!ok){
+      toast.error({
+        text: "Error al actualizar, no se pudo completar la acción"
+      })
+      return
+    }
+
+    toast.success({
+      text: "Producto actualizado correctamente"
+    })
+
+    router.replace(`/admin/product/${newProduct?.slug}`)
   };
 
   return (
@@ -197,7 +222,8 @@ export const ProductForm = ({ product, categories }: Props) => {
               type="file"
               multiple
               className="p-2 border rounded-md bg-gray-200"
-              accept="image/png, image/jpeg"
+              accept="image/png, image/jpeg, image/avif"
+              {...register("images")}
             />
           </div>
 
@@ -207,8 +233,8 @@ export const ProductForm = ({ product, categories }: Props) => {
                 key={img.id}
                 className="hover:shadow-2xl hover:scale-105 transition-all duration-300"
               >
-                <Image
-                  src={`/products/${img.url}`}
+                <ProductImage
+                  src={img.url}
                   alt={product.title ?? "Product image"}
                   className="rounded-t-md shadow-xl"
                   width={300}

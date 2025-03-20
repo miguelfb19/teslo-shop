@@ -4,6 +4,7 @@ import { inter } from "@/config/fonts";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import PaypalProvider from "./providers/PaypalProvider";
+import { Toaster } from "@pheralb/toast";
 
 export const metadata: Metadata = {
   title: {
@@ -22,7 +23,10 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${inter.className}`}>
         <PaypalProvider>
-          <SessionProvider>{children}</SessionProvider>
+          <SessionProvider>
+            {children}
+            <Toaster toastOptions={{ defaultCloseContent: "Cerrar" }} theme="light" position="top-center"/>
+          </SessionProvider>
         </PaypalProvider>
       </body>
     </html>

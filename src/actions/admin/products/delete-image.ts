@@ -1,8 +1,10 @@
 "use server";
 
-import cloudinary from "@/lib/cloudinary";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config(process.env.CLOUDINARY_URL || "");
 
 export const deleteImage = async (imageId: number, imageUrl: string) => {
   if (!imageUrl)

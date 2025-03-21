@@ -168,11 +168,11 @@ export const placeOrder = async (
       order: prismaTransaction.order,
       prismaTransaction: prismaTransaction,
     };
-    // eslint-disable-next-line
-  } catch (error: any) {
+  } catch (error) {
+    console.error(error)
     return {
       ok: false,
-      message: error?.message,
+      message: 'No se pudo poner la orden, intenta de nuevo más tarde',
     };
   }
 };

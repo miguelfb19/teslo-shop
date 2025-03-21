@@ -1,10 +1,11 @@
 export const revalidate = 60; // 60 segundos
 
-import { ProductGrid } from "@/components";
-import { Title } from "@/components";
-import { getPaginatedProductsWithImages } from "@/actions";
-import { Pagination } from "@/components";
-import { Gender } from "@prisma/client";
+import { getPaginatedProductsWithImages } from "@/actions/products/products-pagination";
+import { ProductGrid } from "@/components/products/product-grid/ProductGrid";
+import { Pagination } from "@/components/ui/pagination/Pagination";
+import { Title } from "@/components/ui/title/Title";
+import { Gender } from "@/interfaces/product.interface";
+
 import { Metadata } from "next";
 
 interface Props {
@@ -17,10 +18,9 @@ interface Props {
 }
 
 const getSpanishTitle = (gender: string) => {
-  
-  if (gender == "men") return gender = "hombre";
-  if (gender == "women") return gender = "mujer";
-  if (gender == "kid") return gender = "niño";
+  if (gender == "men") return (gender = "hombre");
+  if (gender == "women") return (gender = "mujer");
+  if (gender == "kid") return (gender = "niño");
 };
 
 export async function generateMetadata({
@@ -35,7 +35,7 @@ Promise<Metadata> {
   // optionally access and extend (rather than replace) parent metadata
   // const previousImages = (await parent).openGraph?.images || []
 
-  const spanishGender = getSpanishTitle(gender)
+  const spanishGender = getSpanishTitle(gender);
 
   return {
     title: spanishGender?.toUpperCase() ?? "Producto no encontrado",
@@ -61,8 +61,6 @@ export default async function GenderPage({ searchParams, params }: Props) {
     page: pagination,
     gender: gender,
   });
-
-  
 
   return (
     <div className="px-2">

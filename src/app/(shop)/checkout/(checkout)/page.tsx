@@ -1,9 +1,9 @@
 "use client";
 
-import { Title } from "@/components";
 import Link from "next/link";
 import { ProductsInCartCheckout } from "./ui/ProductsInCartCheckout";
 import { PlaceOrder } from "./ui/PlaceOrder";
+import { Title } from "@/components/ui/title/Title";
 
 export default function CheckoutPage() {
   return (

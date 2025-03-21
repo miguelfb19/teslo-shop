@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-import { getStockBySlug } from "@/actions";
+import { getStockBySlug } from "@/actions/products/getStockBySlug";
 import { titleFont } from "@/config/fonts";
 import clsx from "clsx";
 // import { useEffect, useState } from "react";

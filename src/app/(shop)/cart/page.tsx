@@ -1,16 +1,16 @@
 "use client";
 
-import { Title } from "@/components";
 import Link from "next/link";
 import { ProductsInCart } from "./ui/ProductsInCart";
 import { redirect } from "next/navigation";
 import { useCartStore } from "@/store/cart/cart-store";
 import { OrderSummary } from "./ui/OrderSummary";
+import { Title } from "@/components/ui/title/Title";
 
 export default function CartPage() {
   const cart = useCartStore((state) => state.cart);
 
-  if (cart.length === 0 ) {
+  if (cart.length === 0) {
     redirect("/empty");
   }
   return (

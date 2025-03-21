@@ -1,11 +1,11 @@
-import { Title } from "@/components";
+import { Title } from "@/components/ui/title/Title";
 import { getOrderById } from "@/actions/order/get-order-by-id";
 import { NotOrderExist } from "../ui/NotOrderExist";
 import { DeliveryAddressOrder } from "../ui/DeliveryAddressOrder";
 import { OrderSummary } from "../ui/OrderSummary";
 import { OrderItemsComponent } from "../ui/OrderItemsComponent";
-import { PaypalButton } from "../../../../components/paypal/PaypalButton";
-import { OrderStatus } from "../../../../components/ui/order/OrderStatus";
+import { PaypalButton } from "@/components/paypal/PaypalButton";
+import { OrderStatus } from "@/components/ui/order/OrderStatus";
 
 interface Props {
   params: Promise<{

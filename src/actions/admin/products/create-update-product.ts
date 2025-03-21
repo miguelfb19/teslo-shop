@@ -105,7 +105,7 @@ export const createUpdateProduct = async (formData: FormData) => {
     // revalidate paths
     revalidatePath("/admin/products");
     revalidatePath(`/admin/products/${product.slug}`);
-    revalidatePath(`/products/${product.slug}`);
+    revalidatePath(`/product/${product.slug}`);
 
     return {
       product: prismaTransaction.product,

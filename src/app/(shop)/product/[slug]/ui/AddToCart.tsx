@@ -1,8 +1,8 @@
 "use client";
 
-import { QuantitySelector, SizeSelector } from "@/components";
-import { Product } from "@/interfaces";
-import { CartProduct, Size } from "@/interfaces/product.interface";
+import { QuantitySelector } from "@/components/product/quantity-selector/QuantitySelector";
+import { SizeSelector } from "@/components/product/size-selector/SizeSelector";
+import { CartProduct, Product, Size } from "@/interfaces/product.interface";
 import { useCartStore } from "@/store/cart/cart-store";
 import clsx from "clsx";
 import { useState } from "react";
@@ -51,7 +51,7 @@ export const AddToCart = ({ product }: Props) => {
       {/* Cantidad */}
       <QuantitySelector
         quantity={quantity}
-        onQuantityChanged={setQuantity}
+        action={setQuantity}
         stock={product.inStock}
         cartPage={false}
       />

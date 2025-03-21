@@ -1,4 +1,4 @@
-import { Title } from "@/components";
+import { Title } from "@/components/ui/title/Title";
 
 import Image from "next/image";
 

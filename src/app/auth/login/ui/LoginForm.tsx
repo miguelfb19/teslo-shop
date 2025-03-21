@@ -6,7 +6,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useActionState, useEffect } from "react";
 import { BsExclamationCircle } from "react-icons/bs";
-import { PasswordInput } from "../../../../components/ui/password/PasswordInput";
+import { PasswordInput } from "@/components/ui/password/PasswordInput";
 
 export interface SignInInputs {
   email: string;

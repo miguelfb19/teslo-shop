@@ -1,5 +1,5 @@
 import { getOrdersByUser } from '@/actions/order/get-orders-by-user';
-import { Title } from '@/components';
+import { Title } from '@/components/ui/title/Title';
 import clsx from 'clsx';
 
 import Link from 'next/link';

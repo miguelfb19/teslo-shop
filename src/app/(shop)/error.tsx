@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { PageNotFound } from "@/components";
+import { PageNotFound } from "@/components/ui/not-found/PageNotFound";
 
 export default function ErrorPage() {
   return <PageNotFound />;

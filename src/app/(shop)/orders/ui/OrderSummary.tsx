@@ -1,13 +1,13 @@
-import { currencyFormat } from "@/utils";
+import { currencyFormat } from "@/utils/currencyFormat";
 
 interface Props {
-    itemsInOrder: number,
-    subtotal: number,
-    tax: number,
-    total: number
+  itemsInOrder: number;
+  subtotal: number;
+  tax: number;
+  total: number;
 }
 
-export const OrderSummary = ({itemsInOrder, subtotal, total, tax}:Props) => {
+export const OrderSummary = ({ itemsInOrder, subtotal, total, tax }: Props) => {
   return (
     <div>
       <h2 className="text-2xl mb-2">Resumen de orden:</h2>

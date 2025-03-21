@@ -1,8 +1,7 @@
-import { Title } from "@/components";
-
 import { redirect } from "next/navigation";
 import { UsersTable } from "./ui/UsersTable";
 import { getPaginatedUsers } from "@/actions/admin/users/get-paginated-users";
+import { Title } from "@/components/ui/title/Title";
 
 export default async function AdminUsersPage() {
   const { users, ok } = await getPaginatedUsers();

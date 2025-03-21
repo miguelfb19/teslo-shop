@@ -1,7 +1,7 @@
 "use client";
 
-import { QuantitySelector } from "@/components";
 import { ProductImage } from "@/components/product/product-image/ProductImage";
+import { QuantitySelector } from "@/components/product/quantity-selector/QuantitySelector";
 import { useCartStore } from "@/store/cart/cart-store";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -17,7 +17,7 @@ export const ProductsInCart = () => {
     setLoaded(true);
   }, []);
 
-  if (!loaded) return <p>Cargando productos...</p>
+  if (!loaded) return <p>Cargando productos...</p>;
 
   return (
     <div>
@@ -52,7 +52,7 @@ export const ProductsInCart = () => {
             <p className="text-blue-800 font-semibold">${product.price}</p>
             <QuantitySelector
               quantity={product.quantity}
-              onQuantityChanged={(quantity) =>
+              action={(quantity) =>
                 updateProductInCart(product, quantity)
               }
               stock={product.inStock}

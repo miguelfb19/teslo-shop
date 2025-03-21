@@ -4,8 +4,8 @@ import { titleFont } from "@/config/fonts";
 import { IoSearchOutline, IoCartOutline } from "react-icons/io5";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useUiStore } from "@/store";
 import { useCartStore } from "@/store/cart/cart-store";
+import { useUiStore } from "@/store/ui/ui-store";
 
 export const TopMenu = () => {
   const openMenu = useUiStore((state) => state.openSideMenu);
@@ -55,7 +55,7 @@ export const TopMenu = () => {
         <Link href="/search">
           <IoSearchOutline className="w-5 h-5" />
         </Link>
-        <Link href={(itemsInCart === 0 && loaded) ? "/empty" : "/cart"}>
+        <Link href={itemsInCart === 0 && loaded ? "/empty" : "/cart"}>
           <div className="relative">
             {loaded && itemsInCart != 0 && (
               <span className="flex items-center justify-center aspect-square w-full fade-in absolute text-xs rounded-full font-bold -top-3 bg-blue-700 text-white -right-3">

@@ -3,8 +3,9 @@
 import { createUpdateProduct } from "@/actions/admin/products/create-update-product";
 import { deleteImage } from "@/actions/admin/products/delete-image";
 import { ProductImage } from "@/components/product/product-image/ProductImage";
-import { Product } from "@/interfaces";
+
 import {
+  Product,
   ProductImage as ProductImageInterface,
   Size,
 } from "@/interfaces/product.interface";
@@ -54,7 +55,7 @@ export const ProductForm = ({ product, categories }: Props) => {
     const sizes = new Set(getValues("sizes"));
     if (sizes.has(newSize)) sizes.delete(newSize);
     else sizes.add(newSize);
-    
+
     setValue("sizes", Array.from(sizes));
   };
 

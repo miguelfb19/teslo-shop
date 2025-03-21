@@ -16,7 +16,7 @@ interface Props {
   stock: number;
   cartPage?: boolean;
   product?: CartProduct;
-  onQuantityChanged: (quantity: number) => void;
+  action: (quantity: number) => void;
 }
 
 export const QuantitySelector = ({
@@ -24,7 +24,7 @@ export const QuantitySelector = ({
   stock,
   cartPage = false,
   product,
-  onQuantityChanged,
+  action,
 }: Props) => {
   const [warningStock, setWarningStock] = useState(false);
   const removeProduct = useCartStore((state) => state.removeProduct);
@@ -37,7 +37,7 @@ export const QuantitySelector = ({
     }
 
     setWarningStock(false);
-    onQuantityChanged(quantity + value);
+    action(quantity + value);
   };
 
 

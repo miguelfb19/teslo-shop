@@ -1,7 +1,7 @@
 import { auth } from "@/auth.config";
-import { Title } from "@/components";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import { Title } from "@/components/ui/title/Title";
 
 export default async function ProfilePage() {
   const session = await auth();

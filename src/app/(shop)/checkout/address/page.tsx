@@ -1,11 +1,9 @@
-import { Title } from "@/components";
 import { AddressForm } from "./ui/AddressForm";
 import { getCountriesFromDB } from "@/actions/countries/getCountriesFromDB";
 import { auth } from "@/auth.config";
 import { redirect } from "next/navigation";
 import { getAddresFromDatabase } from "@/actions/address/get-user-address-from-db";
-
-
+import { Title } from "@/components/ui/title/Title";
 
 export default async function CheckoutAdressPage() {
   const session = await auth();
@@ -14,8 +12,8 @@ export default async function CheckoutAdressPage() {
     return redirect("/");
   }
 
-  const rawAddress = await getAddresFromDatabase(session?.user.id);  
-  const address = rawAddress && ('id' in rawAddress) ? rawAddress : undefined;
+  const rawAddress = await getAddresFromDatabase(session?.user.id);
+  const address = rawAddress && "id" in rawAddress ? rawAddress : undefined;
   const countries = await getCountriesFromDB();
 
   return (

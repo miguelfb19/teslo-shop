@@ -1,7 +1,6 @@
 "use client";
 
-// import { logout } from "@/actions/auth/logout";
-import { useUiStore } from "@/store";
+import { useUiStore } from "@/store/ui/ui-store";
 import clsx from "clsx";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
@@ -25,7 +24,7 @@ export const Sidebar = () => {
   const { role } = session?.user || { role: null };
 
   const logoutSession = async () => {
-    await signOut({redirectTo: '/'})
+    await signOut({ redirectTo: "/" });
   };
 
   return (

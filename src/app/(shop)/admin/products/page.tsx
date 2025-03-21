@@ -1,10 +1,10 @@
-import { Title } from "@/components";
-
 import Link from "next/link";
 import { getPaginatedProductsWithImages } from "@/actions/products/products-pagination";
 import { Pagination } from "@/components/ui/pagination/Pagination";
-import { currencyFormat } from "@/utils";
+
 import { ProductImage } from "@/components/product/product-image/ProductImage";
+import { Title } from "@/components/ui/title/Title";
+import { currencyFormat } from "@/utils/currencyFormat";
 
 interface Props {
   searchParams: Promise<{

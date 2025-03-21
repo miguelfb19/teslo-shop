@@ -2,12 +2,12 @@ export const revalidate = 604800; // 7 días
 
 import { titleFont } from "@/config/fonts";
 import { notFound } from "next/navigation";
-import { ProductSlideshow } from "@/components";
-import { ProductMobileSlideshow } from "@/components";
-import { getProductBySlug } from "@/actions";
-import { StockLabel } from "@/components";
 import { Metadata } from "next";
 import { AddToCart } from "./ui/AddToCart";
+import { getProductBySlug } from "@/actions/products/getProductBySlug";
+import { ProductMobileSlideshow } from "@/components/product/slideshow/ProductMobileSlideshow";
+import { ProductSlideshow } from "@/components/product/slideshow/ProductSlideshow";
+import { StockLabel } from "@/components/product/stock-label/StockLabel";
 
 interface Props {
   params: Promise<{

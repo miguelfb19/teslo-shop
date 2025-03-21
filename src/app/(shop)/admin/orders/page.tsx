@@ -1,11 +1,12 @@
 import { getPaginatedOrders } from "@/actions/admin/order/get-paginated-orders";
-import { Title } from "@/components";
+
 import clsx from "clsx";
 
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { IoCardOutline, IoEyeOutline } from "react-icons/io5";
 import { DeleteOrderButton } from "../../../../components/admin/DeleteOrderButton";
+import { Title } from "@/components/ui/title/Title";
 
 export default async function AdminOrdersPage() {
   const { orders, ok } = await getPaginatedOrders();

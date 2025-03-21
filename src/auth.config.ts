@@ -78,4 +78,7 @@ export const authConfig = {
   ],
 } satisfies NextAuthConfig; // este es el tipado, puede ser tambien :NextAuthConfig en la definicion de la funcion
 
-export const { signIn, signOut, auth, handlers } = NextAuth(authConfig);
+export const { signIn, signOut, auth, handlers } = NextAuth({
+  ...authConfig,
+  trustHost: true,
+});

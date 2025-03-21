@@ -14,7 +14,8 @@ export default async function CheckoutAdressPage() {
     return redirect("/");
   }
 
-  const address = await getAddresFromDatabase(session?.user.id);  
+  const rawAddress = await getAddresFromDatabase(session?.user.id);  
+  const address = rawAddress && ('id' in rawAddress) ? rawAddress : undefined;
   const countries = await getCountriesFromDB();
 
   return (

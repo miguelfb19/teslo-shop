@@ -28,6 +28,7 @@ export const authConfig = {
         where: { email: token.email! },
       });
 
+      // eslint-disable-next-line
       session.user = token.data as any;
 
       // ! Actualizamos el rol en caso de que se haya cambiado en la base de datos.
@@ -64,7 +65,7 @@ export const authConfig = {
           if (!bcryptjs.compareSync(password, user.password)) return null;
 
           // Return usuario e información relevante
-          const { password: _, ...rest } = user; // lo que hicimos con el guio bajo basicamente es renombrar la variable para que no tenga conflicto
+          const { password: _password, ...rest } = user; // lo que hicimos con el guio bajo basicamente es renombrar la variable para que no tenga conflicto
 
           return rest;
         } catch (error) {

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { TbMoodLookLeft, TbMoodLookRight } from "react-icons/tb";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import { PiEyes } from "react-icons/pi";
-import { UseFormRegisterReturn } from "react-hook-form";
 
 interface Props {
   label: string;

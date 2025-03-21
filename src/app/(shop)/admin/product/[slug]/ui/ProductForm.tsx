@@ -42,7 +42,6 @@ export const ProductForm = ({ product, categories }: Props) => {
     getValues,
     setValue,
     watch,
-    formState: { isValid },
   } = useForm<FormInputs>({
     defaultValues: {
       ...product,

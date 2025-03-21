@@ -92,7 +92,7 @@ const getPaypalBearerToken = async (): Promise<string | null> => {
 
     return response.access_token;
   } catch (error) {
-    // console.error(error);
+    console.error(error);
     return null;
   }
 };
@@ -120,7 +120,7 @@ const verifyPaypalPayemnt = async (
 
     return data;
   } catch (error) {
-    // console.error(error);
+    console.error(error);
     return null;
   }
 };

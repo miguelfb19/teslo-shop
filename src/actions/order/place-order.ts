@@ -141,7 +141,7 @@ export const placeOrder = async (
       const countryId = countryFromDB ? countryFromDB.id : "";
 
       // Le sacamos el campo country al address
-      const { country, ...rest } = address;
+      const { country:_country, ...rest } = address;
 
       // Insertamos el campo countryId respectivo
       const addressToOrder = {
@@ -167,6 +167,7 @@ export const placeOrder = async (
       order: prismaTransaction.order,
       prismaTransaction: prismaTransaction,
     };
+    // eslint-disable-next-line
   } catch (error: any) {
     return {
       ok: false,

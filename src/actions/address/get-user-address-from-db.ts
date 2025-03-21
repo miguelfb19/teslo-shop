@@ -35,14 +35,9 @@ export const getAddresFromDatabase = async (user: string) => {
     };
   } catch (error) {
     console.error(error);
-    return {};
+    return {
+      ok: false,
+      message: "Error al obtener los datos de residencia.",
+    };
   }
-  // const addresses = await prisma.userAddress.findMany();
-  // const address = addresses.find(
-  //   (address) => address.userId === userId
-  // );
-
-  // if (!address) {
-  //   return {};
-  // }
 };

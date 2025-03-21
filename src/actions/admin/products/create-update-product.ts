@@ -40,7 +40,7 @@ export const createUpdateProduct = async (formData: FormData) => {
   const { id, ...rest } = product;
 
   try {
-    const prismaTransaction = await prisma.$transaction(async (tx) => {
+    const prismaTransaction = await prisma.$transaction(async () => {
       let product: Product;
       const tagsArray = rest.tags
         .split(",")
@@ -111,6 +111,7 @@ export const createUpdateProduct = async (formData: FormData) => {
       message: "Producto actualizado/creado correctamente",
     };
   } catch (error) {
+    console.error(error);
     return {
       ok: false,
       message: "No se pudo actualizar/crear el producto",

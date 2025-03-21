@@ -16,7 +16,7 @@ export default async function ProfilePage() {
       <div className="flex flex-col items-center gap-5">
         <Image
           src={user?.image || "/imgs/not-profile-image.png"}
-          alt={user?.name!}
+          alt={user?.name || "Sin imagen de perfil"}
           width={100}
           height={100}
           className="bg-slate-100 rounded-full"

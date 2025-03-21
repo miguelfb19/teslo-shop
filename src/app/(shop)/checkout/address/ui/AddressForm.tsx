@@ -59,11 +59,12 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
 
   useEffect(() => {
     if (address.firstName) reset(address);
+    // eslint-disable-next-line
   }, []);
 
   const onSubmit = (data: FormInputs) => {
     try {
-      const { userId, id, ...restData } = data;
+      const { userId:_userId, id:_id, ...restData } = data;
       setAddress(restData);
       const { rememberAddress, ...restAddress } = restData;
 

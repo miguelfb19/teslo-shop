@@ -64,6 +64,7 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
 
   const onSubmit = (data: FormInputs) => {
     try {
+      // eslint-disable-next-line
       const { userId:_userId, id:_id, ...restData } = data;
       setAddress(restData);
       const { rememberAddress, ...restAddress } = restData;

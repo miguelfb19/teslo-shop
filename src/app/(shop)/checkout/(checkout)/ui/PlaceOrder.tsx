@@ -14,6 +14,7 @@ export const PlaceOrder = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
+  // eslint-disable-next-line
   const { rememberAddress, ...restAddress } = useAddressStore(
     (state) => state.address
   );

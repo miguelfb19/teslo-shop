@@ -141,6 +141,7 @@ export const placeOrder = async (
       const countryId = countryFromDB ? countryFromDB.id : "";
 
       // Le sacamos el campo country al address
+      // eslint-disable-next-line
       const { country:_country, ...rest } = address;
 
       // Insertamos el campo countryId respectivo

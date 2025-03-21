@@ -4,7 +4,10 @@ import { createUpdateProduct } from "@/actions/admin/products/create-update-prod
 import { deleteImage } from "@/actions/admin/products/delete-image";
 import { ProductImage } from "@/components/product/product-image/ProductImage";
 import { Product } from "@/interfaces";
-import { ProductImage as ProductImageInterface, Size } from "@/interfaces/product.interface";
+import {
+  ProductImage as ProductImageInterface,
+  Size,
+} from "@/interfaces/product.interface";
 import { toast } from "@pheralb/toast";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
@@ -27,35 +30,31 @@ interface FormInputs {
   slug: string;
 
   //todo: images
-  images?: FileList
+  images?: FileList;
 }
 
 const validSizes = ["XS", "S", "M", "L", "XL", "XXL"];
 
 export const ProductForm = ({ product, categories }: Props) => {
+  const router = useRouter();
 
-  const router = useRouter()
-
-  const {
-    handleSubmit,
-    register,
-    getValues,
-    setValue,
-    watch,
-  } = useForm<FormInputs>({
-    defaultValues: {
-      ...product,
-      tags: product.tags?.join(","),
-      images: undefined
-    },
-  });
+  const { handleSubmit, register, getValues, setValue, watch } =
+    useForm<FormInputs>({
+      defaultValues: {
+        ...product,
+        tags: product.tags?.join(","),
+        images: undefined,
+      },
+    });
 
   // El watch me permite re-renderizar el form cuando cambie el campo que le diga, en este caso "sizes"
   watch("sizes");
 
   const onSizeChanged = (newSize: string) => {
     const sizes = new Set(getValues("sizes"));
-    sizes.has(newSize) ? sizes.delete(newSize) : sizes.add(newSize);
+    if (sizes.has(newSize)) sizes.delete(newSize);
+    else sizes.add(newSize);
+    
     setValue("sizes", Array.from(sizes));
   };
 
@@ -77,27 +76,26 @@ export const ProductForm = ({ product, categories }: Props) => {
     formData.append("categoryId", productToSave.categoryId);
     formData.append("slug", productToSave.slug);
 
-    if(images){
+    if (images) {
       for (let i = 0; i < images.length; i++) {
         formData.append("images", images[i]);
       }
-   
     }
 
     const { ok, product: newProduct } = await createUpdateProduct(formData);
 
-    if(!ok){
+    if (!ok) {
       toast.error({
-        text: "Error al actualizar, no se pudo completar la acción"
-      })
-      return
+        text: "Error al actualizar, no se pudo completar la acción",
+      });
+      return;
     }
 
     toast.success({
-      text: "Producto actualizado correctamente"
-    })
+      text: "Producto actualizado correctamente",
+    });
 
-    router.replace(`/admin/product/${newProduct?.slug}`)
+    router.replace(`/admin/product/${newProduct?.slug}`);
   };
 
   return (

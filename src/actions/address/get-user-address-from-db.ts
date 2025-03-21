@@ -26,6 +26,7 @@ export const getAddresFromDatabase = async (user: string) => {
         id: address?.countryId,
       },
     });
+    // eslint-disable-next-line
     const { countryId, address2, ...restAddress } = address;
 
     return {

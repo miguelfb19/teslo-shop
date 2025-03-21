@@ -65,6 +65,7 @@ export const authConfig = {
           if (!bcryptjs.compareSync(password, user.password)) return null;
 
           // Return usuario e información relevante
+          // eslint-disable-next-line
           const { password: _password, ...rest } = user; // lo que hicimos con el guio bajo basicamente es renombrar la variable para que no tenga conflicto
 
           return rest;

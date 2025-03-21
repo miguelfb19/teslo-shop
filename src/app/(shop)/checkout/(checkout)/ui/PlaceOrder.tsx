@@ -57,9 +57,10 @@ export const PlaceOrder = () => {
 
     const resp = await placeOrder(productsToOrder, addressToOrder);
 
+    
     if (!resp.ok) {
       setIsPlacingOrder(false);
-      setErrorMessage(resp.message);
+      setErrorMessage(resp.message!);
       if(resp.flag === "empty-order"){
         router.push("/");
       }

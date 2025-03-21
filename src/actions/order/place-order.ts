@@ -168,7 +168,7 @@ export const placeOrder = async (
       order: prismaTransaction.order,
       prismaTransaction: prismaTransaction,
     };
-  } catch (error) {
+  } catch (error: any) {
     console.error(error)
     return {
       ok: false,

@@ -68,9 +68,4 @@ export async function authenticate(
 ```
 6. Conectar login form con NextAuth (<mark>IMPORTANTE</mark> en este punto verificar que cada campo del form este identificado con el name para ser parseado por NextAuth)
 7. Crear el esquema prisma para usuarios
-8. Hacer un seed (opcional) 
-
-
-
-# Producción:
-
+8. Hacer un seed (opcional)

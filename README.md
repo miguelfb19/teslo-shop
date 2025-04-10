@@ -12,6 +12,11 @@
 7. Ejecutar el seed ```npm run seed```
 8. Levantar el proyecto en localhost: ```npm run dev```
 
+# NOTAS:
+
+1. Es necesario tener una imagen de postgresql en docker para que funcione el docker compose
+2. Verificar y conseguir todas la variables de enterno en los diferentes servicios de la nube
+
 # Hacer la autenticación:
 
 Documentación: https://authjs.dev/getting-started/installation?framework=Next.js o https://nextjs.org/learn/dashboard-app/adding-authentication

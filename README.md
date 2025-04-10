@@ -4,7 +4,7 @@
 # Desarrollo:
 
 1. Clonar dependencias (Fork)
-2. Crear copia del archivo ```.env.template```,renombrarlo a ```.evn```
+2. Crear copia del archivo ```.env.template```, renombrarlo a ```.env```
 3. Instalar dependencias: ```npm install```
 4. Levantar la base de datos: ```docker compose up -d``` (asegurece de tener el demonio de dokcer corriendo)
 5. Retirar ```.env.template``` del .gitignore y agregar las carpeta de postgres
